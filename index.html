@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cleandente RJ — Odontologia Premium no Centro do Rio</title>
+  <meta name="description" content="Consultório Cleandente RJ no Centro do Rio de Janeiro. Especialistas em implantes, estética e reabilitação oral com a Dra. Renata Strauss e Dr. Igor Firmo.">
+  <meta name="theme-color" content="#87a091">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Progress bar -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <nav class="nav-inner" aria-label="Navegação principal">
+      <a href="#hero" class="nav-logo" data-scroll-link>
+        <span class="nav-logo-text"><strong>Cleandente RJ</strong></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#servicos" data-scroll-link>Serviços</a></li>
+        <li><a href="#profissionais" data-scroll-link>Profissionais</a></li>
+        <li><a href="#beneficios" data-scroll-link>Benefícios</a></li>
+        <li><a href="#como-funciona" data-scroll-link>Como funciona</a></li>
+        <li><a href="#contato" data-scroll-link>Contato</a></li>
+      </ul>
+
+      <a href="#contato" class="btn btn-primary nav-cta" data-scroll-link>
+        Agendar avaliação
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <button class="nav-burger" id="nav-burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <ul>
+        <li><a href="#servicos" data-scroll-link>Serviços</a></li>
+        <li><a href="#profissionais" data-scroll-link>Profissionais</a></li>
+        <li><a href="#beneficios" data-scroll-link>Benefícios</a></li>
+        <li><a href="#como-funciona" data-scroll-link>Como funciona</a></li>
+        <li><a href="#contato" data-scroll-link>Contato</a></li>
+      </ul>
+      <a href="#contato" class="btn btn-primary btn-block" data-scroll-link>Agendar avaliação</a>
+    </div>
+  </header>
+
+  <main>
+    
+    <!-- ============ HERO BANNER ============ -->
+    <section class="hero hero-banner" id="hero">
+      <div class="hero-image-container">
+        <picture>
+          <source media="(max-width: 768px)" srcset="fotos/banner-mobile.png">
+          <img src="fotos/banner dentista.png" alt="Atendimento Odontológico" class="hero-bg-img">
+        </picture>
+        <div class="hero-overlay" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-inner-banner">
+        <div class="hero-content-grid">
+          
+          <div class="hero-title-area" data-hero-fade>
+            <h1 class="hero-title-new">ODONTOLOGIA<br>MODERNA COM<br>CUIDADO GENTIL.</h1>
+          </div>
+
+          <div class="hero-right-middle" data-hero-fade>
+            <p class="hero-desc-new">Cuidado odontológico especializado para sorrisos saudáveis e confiantes em todas as idades — entregue com conforto, precisão e confiança.</p>
+          </div>
+
+          <div class="hero-tags-area" data-hero-fade>
+            <span class="hero-tag active">Checkup Dental</span>
+            <span class="hero-tag active-light">Limpeza</span>
+            <span class="hero-tag">Restauração</span>
+            <span class="hero-tag">Tratamento de Gengiva</span>
+            <span class="hero-tag">Clareamento</span>
+          </div>
+          
+          <div class="hero-card-area" data-hero-fade>
+            <div class="dentist-card" data-magnetic>
+              <div class="dc-img-wrapper">
+                <img src="fotos/clear.png" alt="Cleandente RJ">
+              </div>
+              <div class="dc-info">
+                <strong>Cleandente RJ</strong>
+                <span>Odontologia Especializada</span>
+                <small><strong>20+ anos de experiência</strong> | Avaliação 5.0</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVIÇOS (ABAS) ============ -->
+    <section class="section servicos" id="servicos">
+      <div class="container">
+        
+        <div class="section-head reveal-group">
+          <span class="section-eyebrow">Nossos tratamentos</span>
+          <h2 class="section-title">Tecnologia e estética<br>em <em>cada detalhe</em></h2>
+          <p class="section-sub" data-text-reveal>
+            Do diagnóstico digital à reabilitação completa, oferecemos soluções
+            sob medida para devolver saúde, função e beleza ao seu sorriso.
+          </p>
+        </div>
+
+        <div class="services-showcase">
+          
+          <div class="services-display" id="services-display">
+            <div class="sd-image-wrapper">
+              <img src="fotos/implante1.jpg" alt="Implantes dentários" id="sd-image">
+            </div>
+            <div class="sd-content">
+              <h3 id="sd-title">Implantes dentários</h3>
+              <p id="sd-desc">Substituição de raízes dentárias perdidas por pinos de titânio de alta precisão, oferecendo estabilidade, conforto mastigatório e um resultado estético natural e definitivo.</p>
+            </div>
+          </div>
+
+          <div class="services-list">
+            <button class="service-btn active" 
+                    data-img="fotos/implante1.jpg" 
+                    data-title="Implantes dentários" 
+                    data-desc="Substituição de raízes dentárias perdidas por pinos de titânio de alta precisão, oferecendo estabilidade, conforto mastigatório e um resultado estético natural e definitivo.">
+              <span>Implantes dentários</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <button class="service-btn" 
+                    data-img="fotos/aparelho1.jpg" 
+                    data-title="Aparelho Estético" 
+                    data-desc="Alinhamento dental discreto e eficiente, utilizando materiais transparentes que preservam a estética do seu sorriso ao longo de todo o tratamento ortodôntico.">
+              <span>Aparelho Estético</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <button class="service-btn" 
+                    data-img="fotos/clareamento1.jpg" 
+                    data-title="Clareamento dental" 
+                    data-desc="Técnicas avançadas e seguras para remover manchas e amarelados, devolvendo a luminosidade e a brancura natural aos seus dentes sem causar sensibilidade extrema.">
+              <span>Clareamento dental</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <button class="service-btn" 
+                    data-img="fotos/faceta1.jpg" 
+                    data-title="Faceta dental" 
+                    data-desc="Laminados ultrafinos de porcelana aplicados sobre os dentes para corrigir formato, cor, espaçamentos e pequenos desgastes, criando um sorriso perfeitamente harmonioso.">
+              <span>Faceta dental</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <button class="service-btn" 
+                    data-img="fotos/sobreimplante.jpg" 
+                    data-title="Prótese sobre implante" 
+                    data-desc="Reabilitação oral completa que devolve 100% da função mastigatória e a segurança ao sorrir e falar, fixada firmemente sobre implantes dentários prévios.">
+              <span>Prótese sobre implante</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- ============ NOSSOS PROFISSIONAIS (INTERATIVO) ============ -->
+<section class="section team-section" id="profissionais">
+      <div class="container">
+        
+        <div class="team-container" id="team-slider">
+          
+          <!-- LADO ESQUERDO: Foto Principal -->
+          <div class="team-image-col reveal">
+            <div class="team-main-img-wrapper">
+              <img src="fotos/renata.png" alt="Dra. Renata Strauss" id="team-main-img">
+            </div>
+          </div>
+
+          <!-- LADO DIREITO: Conteúdo e Preview -->
+          <div class="team-content-col">
+            
+            <!-- Info do Profissional -->
+            <div class="team-info reveal" id="team-info">
+              <h2 class="team-name" id="team-name">Dra. Renata Strauss</h2>
+              <span class="team-cro" id="team-cro">CRO/RJ 34248</span>
+              <div class="team-bio" id="team-bio">
+                <p>Formada há 17 anos.</p>
+                <p><strong>Especialista</strong> em prótese dentária com <strong>foco em reabilitação oral</strong>.</p>
+                <p>Dentística <strong>restauradora e ortodontia</strong>.</p>
+                <p><strong>Pós graduada</strong> em DTM e fez residência em HOF.</p>
+                <p>Criadora dos melhores sorrisos da Cleandente.</p>
+                <p>É esposa do Dr Igor Firmo e mãe da Duda e da Manu. Ama viajar em família.</p>
+              </div>
+              <button class="team-next-btn" id="team-next-btn">
+                Próximo Profissional <span>→</span>
+              </button>
+            </div>
+
+            <!-- Card de Preview (Onde fica a próxima foto) -->
+            <div class="team-preview-card reveal" id="team-preview-card">
+              <div class="preview-images">
+                <!-- Apenas a foto de quem é o próximo (removido a foto de apoio extra) -->
+                <div class="pill-img"><img src="fotos/igor.png" id="preview-img-1" alt="Próximo Profissional"></div>
+              </div>
+              <div class="preview-text-area">
+                <p class="preview-desc">Conheça também nossos outros especialistas dedicados ao seu sorriso.</p>
+                <div class="preview-stats">
+                  <div class="stat-avatars">
+                    <img src="fotos/clear.png" alt="Cleandente">
+                  </div>
+                  <div class="stat-text">
+                    <strong>+18k</strong>
+                    <span>Sorrisos transformados</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ CONVÊNIOS ACEITOS ============ -->
+    <section class="section convenios" id="convenios">
+      <div class="container">
+        
+        <div class="section-head reveal-group" style="text-align: center; margin: 0 auto 50px;">
+          <span class="section-eyebrow">Facilidades</span>
+          <h2 class="section-title">Convênios <em>Aceitos</em></h2>
+        </div>
+
+        <div class="convenios-carousel-wrapper">
+          <div class="convenios-track">
+            
+            <!-- Grupo 1 -->
+            <div class="convenio-logo"><img src="fotos/bradesco.png" alt="Bradesco Saúde"></div>
+            <div class="convenio-logo"><img src="fotos/amil.png" alt="Amil"></div>
+            <div class="convenio-logo"><img src="fotos/sulamerica.png" alt="SulAmérica"></div>
+            <div class="convenio-logo"><img src="fotos/unimed.png" alt="Unimed"></div>
+
+            <!-- Grupo 2 (Cópia exata) -->
+            <div class="convenio-logo"><img src="fotos/bradesco.png" alt="Bradesco Saúde"></div>
+            <div class="convenio-logo"><img src="fotos/amil.png" alt="Amil"></div>
+            <div class="convenio-logo"><img src="fotos/sulamerica.png" alt="SulAmérica"></div>
+            <div class="convenio-logo"><img src="fotos/unimed.png" alt="Unimed"></div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ BENEFÍCIOS & GALERIA ============ -->
+    <section class="section beneficios" id="beneficios">
+      <div class="container">
+        <div class="section-head reveal-group">
+          <span class="section-eyebrow">Por que a Cleandente</span>
+          <h2 class="section-title" data-text-reveal>Cuidado que <em>transforma</em><br>sorrisos e vidas</h2>
+        </div>
+
+        <div class="benefits-grid">
+          <div class="benefit-item reveal">
+            <div class="benefit-num" data-counter="10">0</div>
+            <h4>Anos de experiência</h4>
+            <p>Atendimento clínico consolidado com constante atualização técnica.</p>
+          </div>
+          <div class="benefit-item reveal">
+            <div class="benefit-num" data-counter="2500">0</div>
+            <h4>Sorrisos transformados</h4>
+            <p>Pacientes satisfeitos em toda a cidade do Rio de Janeiro.</p>
+          </div>
+          <div class="benefit-item reveal">
+            <div class="benefit-num" data-counter="98" data-suffix="%">0%</div>
+            <h4>Índice de satisfação</h4>
+            <p>Avaliação positiva constante no pós-tratamento.</p>
+          </div>
+          <div class="benefit-item reveal">
+            <div class="benefit-num" data-counter="1200" data-prefix="+">+0</div>
+            <h4>Consultas por ano</h4>
+            <p>Atendimento contínuo e acompanhamento próximo em todo o tratamento.</p>
+          </div>
+        </div>
+
+        <!-- ============ NOVA GALERIA MASONRY ============ -->
+        <div class="new-gallery">
+          <div class="ng-header reveal-group">
+            <div class="ng-title-area">
+              <span class="ng-subtitle">Nossa Consultorio</span>
+              <h2 class="ng-title">Cleandente RJ</h2>
+            </div>
+            <div class="ng-vision-area">
+              <h3 class="ng-vision-title">Nossa Visão</h3>
+              <p class="ng-vision-desc">Na Cleandente RJ, nossa visão é unir tecnologia avançada com um atendimento acolhedor para criar um espaço seguro. Nosso objetivo é inspirar sorrisos saudáveis e confiantes por meio de inovação e tratamentos personalizados.</p>
+              <div class="ng-dots">
+                <span class="ng-dot active" aria-hidden="true"></span>
+                <span class="ng-dot" aria-hidden="true"></span>
+                <span class="ng-dot" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ng-grid">
+            <!-- Coluna Esquerda -->
+            <div class="ng-col">
+              <!-- Cuidado Dental (Top Left) -->
+              <div class="ng-item ng-item-short reveal">
+                <div class="ng-img-wrap">
+                  <img src="fotos/consultorio.jpg" alt="Cuidado Dental" loading="lazy">
+                </div>
+                <div class="ng-badge badge-bottom-left">Cuidado Dental</div>
+              </div>
+              <!-- Tratamentos (Bottom Left) -->
+              <div class="ng-item ng-item-tall reveal">
+                <div class="ng-img-wrap">
+                  <img src="fotos/entrada.jpg" alt="Tratamentos Odontológicos" loading="lazy">
+                </div>
+                <div class="ng-badge badge-vertical-left">Tratamentos</div>
+              </div>
+            </div>
+
+            <!-- Coluna Direita -->
+            <div class="ng-col">
+              <!-- Próteses (Top Right) -->
+              <div class="ng-item ng-item-tall reveal">
+                <div class="ng-img-wrap">
+                  <img src="fotos/teste.jpg" alt="Próteses e Estética" loading="lazy">
+                </div>
+                <div class="ng-badge badge-vertical-right">Próteses</div>
+              </div>
+              <!-- Alinhamento (Bottom Right) -->
+              <div class="ng-item ng-item-short reveal">
+                <div class="ng-img-wrap">
+                  <img src="fotos/sla.jpg" alt="Alinhamento Dental" loading="lazy">
+                </div>
+                <div class="ng-badge badge-top-right">Alinhamento</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ============================================== -->
+
+      </div>
+    </section>
+
+    <!-- ============ COMO FUNCIONA ============ -->
+    <section class="section como-funciona" id="como-funciona">
+      <div class="container">
+        
+        <div class="smile-timeline">
+          
+          <div class="smile-center-head reveal-group">
+            <span class="section-eyebrow">Como funciona</span>
+            <h2 class="section-title">Do primeiro contato ao<br><em>sorriso dos sonhos</em></h2>
+          </div>
+
+          <div class="smile-svg-wrapper" aria-hidden="true">
+            <svg viewBox="0 0 1000 450" fill="none" preserveAspectRatio="xMidYMid meet">
+              <path class="smile-bg-path" d="M 100 50 C 100 550 900 550 900 50" stroke="var(--sage-200)" stroke-width="70" stroke-linecap="round" />
+              <path class="smile-progress-path" d="M 100 50 C 100 550 900 550 900 50" stroke="var(--sage-500)" stroke-width="4" stroke-linecap="round" />
+            </svg>
+          </div>
+
+          <div class="smile-steps-container">
+            <div class="smile-step step-1">
+              <div class="step-dot"></div>
+              <h4>01. Contato</h4>
+              <p>Você agenda uma avaliação pelo telefone ou site, sem burocracia.</p>
+            </div>
+            
+            <div class="smile-step step-2">
+              <div class="step-dot"></div>
+              <h4>02. Avaliação completa</h4>
+              <p>Exames e planejamento digital para entender cada detalhe do seu sorriso.</p>
+            </div>
+            
+            <div class="smile-step step-3">
+              <div class="step-dot"></div>
+              <h4>03. Plano personalizado</h4>
+              <p>Você recebe um plano claro, com prazos, etapas e valores transparentes.</p>
+            </div>
+            
+            <div class="smile-step step-4">
+              <div class="step-dot"></div>
+              <h4>04. Transformação</h4>
+              <p>Executamos o tratamento com acompanhamento próximo até o resultado final.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section class="section cta-final" id="contato">
+      <div class="container">
+        <div class="cta-card reveal">
+          <div class="cta-glow" aria-hidden="true"></div>
+          <span class="section-eyebrow cta-eyebrow">Agende sua avaliação</span>
+          <h2 class="cta-title">Seu novo sorriso<br>começa <em>hoje</em></h2>
+          <p class="cta-sub">
+            Fale com a equipe da Cleandente RJ e dê o primeiro passo
+            para um sorriso saudável, bonito e confiante.
+          </p>
+          <div class="cta-actions">
+          <a href="https://wa.me/5521988902818?text=Olá!%20Gostaria%20de%20agendar%20uma%20avaliação." class="btn btn-light btn-lg" target="_blank" rel="noopener noreferrer" data-magnetic>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3.5C2 2.7 2.7 2 3.5 2h2l1.5 3-1.8 1.3a9.5 9.5 0 0 0 4.5 4.5L11 9l3 1.5v2c0 .8-.7 1.5-1.5 1.5A11.5 11.5 0 0 1 2 3.5Z" stroke="currentColor" stroke-width="1.6"/></svg>
+              (21) 98890-2818
+            </a>
+            <a href="#como-funciona" class="btn btn-outline-light btn-lg" data-scroll-link>
+              Conhecer o processo
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="cta-meta">
+            <span><b>Local:</b> Avenida 13 de Maio, 47 · Sala 2405 · Centro, Rio de Janeiro</span>
+            <span><b>Horário:</b> Seg a Sex · 08h–12h &amp; 13h30–18h</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="#hero" class="nav-logo" data-scroll-link>
+          <span class="nav-logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 3C9.5 3 4.5 8.3 4.5 15.2c0 4.6 2.4 8.6 6 11l.6-4.9A9 9 0 0 1 16 6.6a9 9 0 0 1 4.9 14.7l.6 4.9c3.6-2.4 6-6.4 6-11C27.5 8.3 22.5 3 16 3Z" fill="currentColor"/>
+              <path d="M16 9.5a5.7 5.7 0 0 0-5.7 5.7c0 1.7.7 3.2 1.9 4.2l.4-3a3 3 0 1 1 6.8 0l.4 3a5.7 5.7 0 0 0 1.9-4.2A5.7 5.7 0 0 0 16 9.5Z" fill="#fff" opacity=".9"/>
+            </svg>
+          </span>
+          <span class="nav-logo-text"><strong>Cleandente RJ</strong></span>
+        </a>
+        <p>Odontologia estética e reabilitação oral com tecnologia de ponta e atendimento humanizado no Rio de Janeiro.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><span aria-hidden="true">◎</span></a>
+          <a href="#" aria-label="WhatsApp"><span aria-hidden="true">✆</span></a>
+          <a href="#" aria-label="Facebook"><span aria-hidden="true">ƒ</span></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Tratamentos</h5>
+        <ul>
+          <li><a href="#servicos" data-scroll-link>Implantes dentários</a></li>
+          <li><a href="#servicos" data-scroll-link>Aparelho Estético</a></li>
+          <li><a href="#servicos" data-scroll-link>Clareamento dental</a></li>
+          <li><a href="#servicos" data-scroll-link>Faceta dental</a></li>
+          <li><a href="#servicos" data-scroll-link>Prótese sobre implante</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="#servicos" data-scroll-link>Serviços</a></li>
+          <li><a href="#beneficios" data-scroll-link>Benefícios</a></li>
+          <li><a href="#como-funciona" data-scroll-link>Como funciona</a></li>
+          <li><a href="#contato" data-scroll-link>Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <ul class="footer-contact">
+          <li><span aria-hidden="true">◈</span> Avenida 13 de Maio, 47 · Sala 2405<br>Centro, Rio de Janeiro · RJ</li>
+         <li><span aria-hidden="true">✆</span> <a href="https://wa.me/5521988902818?text=Olá!%20Gostaria%20de%20agendar%20uma%20avaliação." target="_blank" rel="noopener noreferrer">(21) 98890-2818</a></li>
+          <li><span aria-hidden="true">◷</span> Seg–Sex: 08h–12h / 13h30–18h<br>Sáb &amp; Dom: fechado</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© 2026 Cleandente RJ. Todos os direitos reservados.</span>
+        <span>CRO-RJ 34248 / 38355</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/split-type@0.3.4/umd/index.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
