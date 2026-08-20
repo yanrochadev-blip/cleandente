@@ -123,12 +123,12 @@
   });
 
   /* ----------------------------------------------------------
-     Text Reveal on Scroll (O Texto que se escreve - Corrigido Mobile/PC)
+     Text Reveal on Scroll (Apenas Entrada em todas as telas)
      ---------------------------------------------------------- */
   function initTextReveal() {
     if (typeof SplitType === 'undefined' || typeof gsap === 'undefined') return;
 
-    // Mapeamento completo: pegando TODAS as classes de texto do site
+    // Mapeamento completo: pegando TODAS as classes de texto do site[cite: 3]
     const textElements = document.querySelectorAll(`
       [data-text-reveal],
       .section-title, .section-sub, .section-eyebrow, 
@@ -140,43 +140,21 @@
       .smile-step h4, .smile-step p
     `);
 
-    // Usa matchMedia para regras diferentes no PC e no Celular
-    let mm = gsap.matchMedia();
-
     textElements.forEach((el) => {
       const split = new SplitType(el, { types: 'words, chars' });
 
-      // REGRA PARA DESKTOP (PC) - Entrada e saída animada
-      mm.add("(min-width: 993px)", () => {
-        gsap.from(split.chars, {
-          scrollTrigger: {
-            trigger: el,
-            start: "top 90%",
-            end: "bottom 10%",
-            toggleActions: "play reverse play reverse"
-          },
-          y: 20,
-          opacity: 0,
-          duration: 0.3,
-          stagger: 0.02,
-          ease: "power2.out"
-        });
-      });
-
-      // REGRA PARA MOBILE (Celular) - Apenas Entrada, sem sumir
-      mm.add("(max-width: 992px)", () => {
-        gsap.from(split.chars, {
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none" 
-          },
-          y: 20,
-          opacity: 0,
-          duration: 0.3,
-          stagger: 0.02,
-          ease: "power2.out"
-        });
+      // Animação apenas de entrada (play none none none) para PC e Celular
+      gsap.from(split.chars, {
+        scrollTrigger: {
+          trigger: el,
+          start: "top 88%",
+          toggleActions: "play none none none" 
+        },
+        y: 20,
+        opacity: 0,
+        duration: 0.3,
+        stagger: 0.02,
+        ease: "power2.out"
       });
     });
   }
@@ -556,11 +534,10 @@
 
     function swipeService(index) {
       if (index < 0 || index >= servButtons.length) return;
-      servButtons[index].click(); // Simula o clique no botão para usar a lógica pronta
+      servButtons[index].click();
       currentServIndex = index;
     }
 
-    // Configura o evento de swipe mantendo o controle do index
     servButtons.forEach((btn, idx) => {
       btn.addEventListener('click', () => { currentServIndex = idx; });
     });
@@ -604,29 +581,28 @@
       });
     }
   });
-/* ============================================================
-   LÓGICA DO AVISO DE COOKIES
-   ============================================================ */
-document.addEventListener("DOMContentLoaded", () => {
-  const cookieBanner = document.getElementById("cookie-banner");
-  const acceptBtn = document.getElementById("accept-cookies");
 
-  if (cookieBanner && acceptBtn) {
-    // Verifica se o usuário já aceitou antes (salvo no navegador)
-    if (!localStorage.getItem("cookiesAccepted")) {
-      // Espera 2 segundos após o site carregar para mostrar o aviso
-      setTimeout(() => {
-        cookieBanner.classList.add("show");
-      }, 2000);
+  /* ============================================================
+     LÓGICA DO AVISO DE COOKIES
+     ============================================================ */
+  document.addEventListener("DOMContentLoaded", () => {
+    const cookieBanner = document.getElementById("cookie-banner");
+    const acceptBtn = document.getElementById("accept-cookies");
+
+    if (cookieBanner && acceptBtn) {
+      if (!localStorage.getItem("cookiesAccepted")) {
+        setTimeout(() => {
+          cookieBanner.classList.add("show");
+        }, 2000);
+      }
+
+      acceptBtn.addEventListener("click", () => {
+        localStorage.setItem("cookiesAccepted", "true");
+        cookieBanner.classList.remove("show");
+      });
     }
+  });
 
-    // Quando clica em aceitar, esconde o banner e salva a escolha
-    acceptBtn.addEventListener("click", () => {
-      localStorage.setItem("cookiesAccepted", "true");
-      cookieBanner.classList.remove("show");
-    });
-  }
-});
   /* ----------------------------------------------------------
      Init All
      ---------------------------------------------------------- */

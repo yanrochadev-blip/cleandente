@@ -1109,7 +1109,7 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
    ============================================================ */
 .cookie-banner {
   position: fixed;
-  bottom: 0; /* Fixa na base */
+  bottom: 0;
   left: 0;
   width: 100%;
   background: var(--sage-950);
@@ -1117,15 +1117,57 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
   padding: 16px 0;
   z-index: 9999;
   box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
-  
-  /* O truque mágico: empurra o banner inteiro 120% para baixo (escondendo a caixa e a sombra) */
   transform: translateY(120%); 
   transition: transform 0.6s var(--ease-premium);
-  
   display: flex;
   justify-content: center;
 }
 
 .cookie-banner.show { 
-  transform: translateY(0); /* Traz o banner de volta para a tela suavemente */
+  transform: translateY(0); 
+}
+
+.cookie-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Joga o texto para a esquerda e o botão para a direita */
+  gap: 32px;
+  width: min(var(--container), 92%);
+  margin: 0 auto;
+}
+
+.cookie-content p {
+  font-size: 0.88rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  flex: 1; /* Faz o texto ocupar o espaço disponível à esquerda */
+}
+
+.cookie-content a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+.cookie-content a:hover { color: var(--sage-300); }
+
+/* Garante que o botão não encolha */
+.cookie-content .btn {
+  flex-shrink: 0; 
+}
+
+/* Responsivo para celular (volta a empilhar para não quebrar o layout) */
+@media (max-width: 768px) {
+  .cookie-content { 
+    flex-direction: column; 
+    text-align: center; 
+    gap: 16px; 
+  }
+  .cookie-banner { 
+    padding: 24px 0; 
+  }
+  .cookie-banner .btn {
+    width: 100%;
+  }
 }
