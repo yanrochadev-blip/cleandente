@@ -113,14 +113,18 @@
           <span class="section-eyebrow">Nossos tratamentos</span>
           <h2 class="section-title">Tecnologia e estética<br>em <em>cada detalhe</em></h2>
           <p class="section-sub" data-text-reveal>
-            Do diagnóstico digital à reabilitação completa, oferecemos soluções
-            sob medida para devolver saúde, função e beleza ao seu sorriso.
+     
           </p>
         </div>
 
         <div class="services-showcase">
           
           <div class="services-display" id="services-display">
+            <!-- NOVO: Aviso de Arrastar (Aparece só no mobile) -->
+            <div class="swipe-hint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l-7 7 7 7M15 5l7 7-7 7"/></svg>
+              <span>Arraste para ver mais</span>
+            </div>
             <div class="sd-image-wrapper">
               <img src="fotos/implante1.jpg" alt="Implantes dentários" id="sd-image">
             </div>
@@ -183,6 +187,10 @@
           <!-- LADO ESQUERDO: Foto Principal -->
           <div class="team-image-col reveal">
             <div class="team-main-img-wrapper">
+              <div class="swipe-hint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l-7 7 7 7M15 5l7 7-7 7"/></svg>
+                <span>Arraste para o lado</span>
+              </div>
               <img src="fotos/renata.png" alt="Dra. Renata Strauss" id="team-main-img">
             </div>
           </div>
@@ -301,14 +309,7 @@
               <span class="ng-subtitle">Nossa Consultorio</span>
               <h2 class="ng-title">Cleandente RJ</h2>
             </div>
-            <div class="ng-vision-area">
-              <h3 class="ng-vision-title">Nossa Visão</h3>
-              <p class="ng-vision-desc">Na Cleandente RJ, nossa visão é unir tecnologia avançada com um atendimento acolhedor para criar um espaço seguro. Nosso objetivo é inspirar sorrisos saudáveis e confiantes por meio de inovação e tratamentos personalizados.</p>
-              <div class="ng-dots">
-                <span class="ng-dot active" aria-hidden="true"></span>
-                <span class="ng-dot" aria-hidden="true"></span>
-                <span class="ng-dot" aria-hidden="true"></span>
-              </div>
+           
             </div>
           </div>
 
@@ -402,36 +403,108 @@
         </div>
       </div>
     </section>
-
-    <!-- ============ CTA FINAL ============ -->
-    <section class="section cta-final" id="contato">
+    
+    <!-- ============ NOSSOS RESULTADOS (SCROLL HORIZONTAL) ============ -->
+    <section class="section resultados-horizontal" id="resultados">
       <div class="container">
-        <div class="cta-card reveal">
-          <div class="cta-glow" aria-hidden="true"></div>
-          <span class="section-eyebrow cta-eyebrow">Agende sua avaliação</span>
-          <h2 class="cta-title">Seu novo sorriso<br>começa <em>hoje</em></h2>
-          <p class="cta-sub">
-            Fale com a equipe da Cleandente RJ e dê o primeiro passo
-            para um sorriso saudável, bonito e confiante.
-          </p>
-          <div class="cta-actions">
-          <a href="https://wa.me/5521988902818?text=Olá!%20Gostaria%20de%20agendar%20uma%20avaliação." class="btn btn-light btn-lg" target="_blank" rel="noopener noreferrer" data-magnetic>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3.5C2 2.7 2.7 2 3.5 2h2l1.5 3-1.8 1.3a9.5 9.5 0 0 0 4.5 4.5L11 9l3 1.5v2c0 .8-.7 1.5-1.5 1.5A11.5 11.5 0 0 1 2 3.5Z" stroke="currentColor" stroke-width="1.6"/></svg>
-              (21) 98890-2818
-            </a>
-            <a href="#como-funciona" class="btn btn-outline-light btn-lg" data-scroll-link>
-              Conhecer o processo
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
+        <div class="section-head reveal-group" style="text-align: center; margin: 0 auto 50px;">
+          <span class="section-eyebrow">Galeria</span>
+          <h2 class="section-title">Nossos <em>Resultados</em></h2>
+          <p class="section-sub" style="margin: 20px auto 0;">Deslize para ver os sorrisos que já transformamos.</p>
+        </div>
+      </div>
+
+      <!-- Wrapper do Carrossel (Onde a mágica do Pin acontece) -->
+      <div class="hr-wrapper">
+        <div class="hr-track">
+          
+          <!-- Fotos da Galeria (Mesmo tamanho dos cards) -->
+          <div class="hr-card">
+            <img src="fotos/clareamento.jpg" alt="Resultado Clareamento" loading="lazy">
           </div>
-          <div class="cta-meta">
-            <span><b>Local:</b> Avenida 13 de Maio, 47 · Sala 2405 · Centro, Rio de Janeiro</span>
-            <span><b>Horário:</b> Seg a Sex · 08h–12h &amp; 13h30–18h</span>
+          
+          <div class="hr-card">
+            <img src="fotos/faceta.png" alt="Resultado Faceta" loading="lazy">
           </div>
+          
+          <div class="hr-card">
+            <img src="fotos/sorriso.jpg" alt="Resultado Implante" loading="lazy">
+          </div>
+          
+          <div class="hr-card">
+            <img src="fotos/faceta.jpg" alt="Resultado Faceta 2" loading="lazy">
+          </div>
+          
+          <div class="hr-card">
+            <img src="fotos/aparelho.jpg" alt="Resultado Aparelho" loading="lazy">
+          </div>
+
+          <div class="hr-card">
+            <img src="fotos/consultorio.jpg" alt="Consultório" loading="lazy">
+          </div>
+
         </div>
       </div>
     </section>
-  </main>
+  <!-- ============ CONTATO ============ -->
+    <section class="section dark-contact" id="contato">
+      <div class="container contact-grid">
+        
+        <!-- Lado Esquerdo: Textos e Informações -->
+        <div class="contact-content reveal">
+          <span class="contact-eyebrow">Fale Conosco</span>
+          <h2 class="contact-title">Venha nos fazer<br>uma visita</h2>
+          <p class="contact-sub">
+            Agende sua avaliação ou venha nos visitar para dar o primeiro passo rumo a um sorriso saudável e confiante.
+          </p>
+
+          <div class="contact-info-list">
+            <!-- Endereço -->
+            <div class="ci-item">
+              <div class="ci-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              </div>
+              <div class="ci-text">
+                <strong>Endereço</strong>
+                <span>Avenida 13 de Maio, 47 · Sala 2405<br>Centro, Rio de Janeiro - RJ</span>
+              </div>
+            </div>
+            
+            <!-- WhatsApp -->
+            <!-- WhatsApp (Botão Inteiro) -->
+<a href="https://wa.me/5521988902818?text=Olá!" target="_blank" rel="noopener noreferrer" class="wpp-contact-btn">
+  <div class="ci-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </div>
+  <div class="ci-text">
+    <strong>Telefone / WhatsApp</strong>
+    <span>+55 21 98890-2818</span>
+  </div>
+</a>
+
+            <!-- Horários -->
+            <div class="ci-item">
+              <div class="ci-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="ci-text">
+                <strong>Horário de Funcionamento</strong>
+                <span>Segunda a Sexta: 08:00 às 18:00<br>Sáb & Dom: Fechado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lado Direito: Mapa Escuro -->
+        <div class="contact-map reveal">
+          <!-- Iframe do Google Maps configurado para a Av 13 de Maio, RJ -->
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.356209015112!2d-43.17700208441584!3d-22.90993898501004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997f5f8a05bd21%3A0x6e788ebcb5c8a49c!2sAv.%20Treze%20de%20Maio%2C%2047%20-%20Centro%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2020031-000!5e0!3m2!1spt-BR!2sbr!4v1680000000000!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+      </div>
+    </section>
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer">

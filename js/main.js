@@ -482,7 +482,200 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+/* ============================================================
+   SCROLL HORIZONTAL - NOSSOS RESULTADOS
+   ============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  // Verifica se o GSAP e o ScrollTrigger estão disponíveis
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
 
+    const horizontalSection = document.querySelector(".resultados-horizontal");
+    const track = document.querySelector(".hr-track");
+
+    if (horizontalSection && track) {
+      // Função para calcular o quanto o elemento deve correr para a esquerda
+      function getScrollAmount() {
+        let trackWidth = track.scrollWidth;
+        return -(trackWidth - window.innerWidth);
+      }
+
+      // Cria a animação que move a "pista" para a esquerda (eixo X)
+      const tween = gsap.to(track, {
+        x: getScrollAmount,
+        ease: "none"
+      });
+
+      // Cria a Trava (Pin) do Scroll
+      ScrollTrigger.create({
+        trigger: horizontalSection,
+        start: "center center", // Trava a tela quando a galeria chega no meio
+        end: () => `+=${getScrollAmount() * -1}`, // Libera quando chega no fim da pista
+        pin: true,
+        animation: tween,
+        scrub: 1, // Suaviza o movimento ligado ao scroll do mouse (efeito smooth)
+        invalidateOnRefresh: true // Recalcula se o usuário redimensionar a janela
+      });
+    }
+  }
+});
+/* ============================================================
+   EFEITO DE TEXTO REVELADO (ENTRADA E SAÍDA) - TODAS AS SEÇÕES
+   ============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  // Verifica se as bibliotecas estão carregadas
+  if (typeof gsap !== "undefined" && typeof SplitType !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Mapeamento completo: pegando TODAS as classes de texto do site
+    const textElements = document.querySelectorAll(`
+      .section-title, .section-sub, .section-eyebrow, 
+      .contact-title, .contact-sub, .contact-eyebrow,
+      .ng-title, .ng-subtitle, .ng-vision-title, .ng-vision-desc,
+      .cta-title, .cta-sub, .gallery-title,
+      .team-name, .team-cro, .team-bio p,
+      .benefit-num, .benefit-item h4, .benefit-item p,
+      .smile-step h4, .smile-step p
+    `);
+
+    textElements.forEach((el) => {
+      // Divide o texto em palavras e depois em caracteres (letras)
+      const split = new SplitType(el, { types: 'words, chars' });
+
+      // Cria a animação atrelada ao scroll
+      gsap.from(split.chars, {
+        scrollTrigger: {
+          trigger: el,
+          start: "top 90%",  // Começa a escrever quando o elemento aparece na base da tela
+          end: "bottom 10%", // Limite para sumir quando passa do topo da tela
+          
+          // O Segredo da Animação de Entrada e Saída:
+          // 1º: play (escreve ao descer)
+          // 2º: reverse (apaga ao passar direto pra cima)
+          // 3º: play (escreve ao voltar subindo)
+          // 4º: reverse (apaga ao voltar pro topo)
+          toggleActions: "play reverse play reverse"
+        },
+        y: 20, // Distância que a letra sobe
+        opacity: 0, // Começa invisível
+        duration: 0.3, // Velocidade da animação de cada letra
+        stagger: 0.02, // O intervalo curtinho que cria o efeito "máquina de escrever"
+        ease: "power2.out"
+      });
+    });
+  }
+});
+/* ============================================================
+   FUNCIONALIDADES MOBILE: SWIPE E TROCA DE ABAS
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. FUNÇÃO UNIVERSAL DE SWIPE (Arraste)
+  function handleSwipe(element, onSwipeLeft, onSwipeRight) {
+    if (!element) return;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    element.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    element.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      // Se a distância do arraste for maior que 50 pixels, dispara a ação
+      if (touchEndX < touchStartX - 50) onSwipeLeft();
+      if (touchEndX > touchStartX + 50) onSwipeRight();
+    }, { passive: true });
+  }
+
+  // 2. LÓGICA DA SEÇÃO DE SERVIÇOS (Tratamentos)
+  const servButtons = document.querySelectorAll('.service-btn');
+  const sdTitle = document.getElementById('sd-title');
+  const sdDesc = document.getElementById('sd-desc');
+  const sdImage = document.getElementById('sd-image');
+  const servicesShowcase = document.querySelector('.services-showcase');
+  let currentServIndex = 0;
+
+  function updateService(index) {
+    if (index < 0 || index >= servButtons.length) return;
+    
+    // Atualiza botão ativo
+    servButtons.forEach(btn => btn.classList.remove('active'));
+    const btn = servButtons[index];
+    btn.classList.add('active');
+
+    // Animação GSAP na troca do conteúdo
+    if (typeof gsap !== "undefined") {
+      gsap.to([sdTitle, sdDesc, sdImage], {
+        opacity: 0,
+        y: 10,
+        duration: 0.2,
+        onComplete: () => {
+          sdTitle.innerText = btn.getAttribute('data-title');
+          sdDesc.innerText = btn.getAttribute('data-desc');
+          sdImage.src = btn.getAttribute('data-img');
+          gsap.to([sdTitle, sdDesc, sdImage], { opacity: 1, y: 0, duration: 0.3 });
+        }
+      });
+    }
+    currentServIndex = index;
+  }
+
+  // Evento de clique nos botões de serviços (Funciona no PC e Mobile)
+  servButtons.forEach((btn, idx) => {
+    btn.addEventListener('click', () => updateService(idx));
+  });
+
+  // Evento de Arraste (Swipe) nos serviços
+  handleSwipe(servicesShowcase, 
+    () => { // Arrastou para a Esquerda (Próximo)
+      let nextIdx = (currentServIndex + 1) % servButtons.length;
+      updateService(nextIdx);
+    },
+    () => { // Arrastou para a Direita (Anterior)
+      let prevIdx = (currentServIndex - 1 + servButtons.length) % servButtons.length;
+      updateService(prevIdx);
+    }
+  );
+
+  // 3. LÓGICA DE ARRASTE DOS PROFISSIONAIS
+  const teamSlider = document.getElementById('team-slider');
+  const btnNextTeam = document.getElementById('team-next-btn');
+  
+  if (teamSlider && btnNextTeam) {
+    handleSwipe(teamSlider, 
+      () => btnNextTeam.click(), // Esquerda
+      () => btnNextTeam.click()  // Direita (Como são 2, qualquer lado troca)
+    );
+  }
+
+  // 4. ANIMAÇÃO DE APARECER E SUMIR A "DICA DE ARRASTE"
+  if (window.innerWidth <= 992 && typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    const hints = document.querySelectorAll('.swipe-hint');
+    
+    hints.forEach(hint => {
+      const parent = hint.parentElement;
+      
+      // Quando a seção chega na tela, a dica aparece
+      ScrollTrigger.create({
+        trigger: parent,
+        start: "top 60%", // Aciona quando o topo do elemento chega em 60% da tela
+        onEnter: () => {
+          gsap.to(hint, { opacity: 1, duration: 0.5 });
+          
+          // Some automaticamente depois de 4 segundos
+          setTimeout(() => {
+            gsap.to(hint, { opacity: 0, duration: 0.5 });
+          }, 4000);
+        }
+      });
+
+      // Se o usuário tocar na tela antes dos 4 segundos, a dica some na hora
+      parent.addEventListener('touchstart', () => {
+        gsap.to(hint, { opacity: 0, duration: 0.3 });
+      }, { once: true });
+    });
+  }
+});
   /* ----------------------------------------------------------
      Init All
      ---------------------------------------------------------- */
