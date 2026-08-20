@@ -1,5 +1,5 @@
 /* ============================================================
-   Dra. Ana Araújo — Landing page interactions
+   Cleandente RJ — Landing page interactions
    GSAP + ScrollTrigger + Lenis + SplitType
    ============================================================ */
 
@@ -14,9 +14,11 @@
     "(hover: none), (pointer: coarse)"
   ).matches;
 
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  }
 
-  if (!prefersReducedMotion) {
+  if (!prefersReducedMotion && typeof gsap !== "undefined") {
     gsap.config({ force3D: true });
   }
 
@@ -67,24 +69,27 @@
   const progressBar = document.querySelector(".scroll-progress");
 
   const onScrollNav = () => {
-    // Transforma o navbar assim que o usuário rola mais de 15px para baixo
-    navbar.classList.toggle("is-scrolled", window.scrollY > 15);
+    if(navbar) {
+      navbar.classList.toggle("is-scrolled", window.scrollY > 15);
+    }
   };
   window.addEventListener("scroll", onScrollNav, { passive: true });
   onScrollNav();
 
-  gsap.to(progressBar, {
-    width: "100%",
-    ease: "none",
-    scrollTrigger: {
-      start: 0,
-      end: "max",
-      scrub: 0.4,
-      onUpdate: (self) => {
-        progressBar.style.width = self.progress * 100 + "%";
+  if(progressBar) {
+    gsap.to(progressBar, {
+      width: "100%",
+      ease: "none",
+      scrollTrigger: {
+        start: 0,
+        end: "max",
+        scrub: 0.4,
+        onUpdate: (self) => {
+          progressBar.style.width = self.progress * 100 + "%";
+        },
       },
-    },
-  });
+    });
+  }
 
   /* ----------------------------------------------------------
      Mobile menu
@@ -93,17 +98,21 @@
   const mobileMenu = document.getElementById("mobile-menu");
 
   const closeMenu = () => {
-    burger.setAttribute("aria-expanded", "false");
-    mobileMenu.classList.remove("is-open");
-    document.body.style.overflow = "";
+    if(burger && mobileMenu) {
+      burger.setAttribute("aria-expanded", "false");
+      mobileMenu.classList.remove("is-open");
+      document.body.style.overflow = "";
+    }
   };
 
-  burger.addEventListener("click", () => {
-    const isOpen = burger.getAttribute("aria-expanded") === "true";
-    burger.setAttribute("aria-expanded", String(!isOpen));
-    mobileMenu.classList.toggle("is-open", !isOpen);
-    document.body.style.overflow = isOpen ? "" : "hidden";
-  });
+  if(burger) {
+    burger.addEventListener("click", () => {
+      const isOpen = burger.getAttribute("aria-expanded") === "true";
+      burger.setAttribute("aria-expanded", String(!isOpen));
+      mobileMenu.classList.toggle("is-open", !isOpen);
+      document.body.style.overflow = isOpen ? "" : "hidden";
+    });
+  }
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeMenu();
@@ -114,35 +123,61 @@
   });
 
   /* ----------------------------------------------------------
-     Text Reveal on Scroll (O Texto que se escreve)
+     Text Reveal on Scroll (O Texto que se escreve - Corrigido Mobile/PC)
      ---------------------------------------------------------- */
   function initTextReveal() {
-    if (typeof SplitType === 'undefined') {
-      console.warn("Script do SplitType não foi encontrado.");
-      return;
-    }
+    if (typeof SplitType === 'undefined' || typeof gsap === 'undefined') return;
 
-    const textReveals = document.querySelectorAll('[data-text-reveal]');
+    // Mapeamento completo: pegando TODAS as classes de texto do site
+    const textElements = document.querySelectorAll(`
+      [data-text-reveal],
+      .section-title, .section-sub, .section-eyebrow, 
+      .contact-title, .contact-sub, .contact-eyebrow,
+      .ng-title, .ng-subtitle, .ng-vision-title, .ng-vision-desc,
+      .cta-title, .cta-sub, .gallery-title,
+      .team-name, .team-cro, .team-bio p,
+      .benefit-num, .benefit-item h4, .benefit-item p,
+      .smile-step h4, .smile-step p
+    `);
 
-    textReveals.forEach((el) => {
-      const text = new SplitType(el, { types: 'words, chars' });
+    // Usa matchMedia para regras diferentes no PC e no Celular
+    let mm = gsap.matchMedia();
 
-      if(text.chars && text.chars.length > 0) {
-        gsap.fromTo(text.chars,
-          { opacity: 0.1 },
-          {
-            opacity: 1,
-            stagger: 0.05,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 90%',
-              end: 'top 50%',
-              scrub: true,
-            }
-          }
-        );
-      }
+    textElements.forEach((el) => {
+      const split = new SplitType(el, { types: 'words, chars' });
+
+      // REGRA PARA DESKTOP (PC) - Entrada e saída animada
+      mm.add("(min-width: 993px)", () => {
+        gsap.from(split.chars, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            end: "bottom 10%",
+            toggleActions: "play reverse play reverse"
+          },
+          y: 20,
+          opacity: 0,
+          duration: 0.3,
+          stagger: 0.02,
+          ease: "power2.out"
+        });
+      });
+
+      // REGRA PARA MOBILE (Celular) - Apenas Entrada, sem sumir
+      mm.add("(max-width: 992px)", () => {
+        gsap.from(split.chars, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none none" 
+          },
+          y: 20,
+          opacity: 0,
+          duration: 0.3,
+          stagger: 0.02,
+          ease: "power2.out"
+        });
+      });
     });
   }
 
@@ -181,15 +216,11 @@
   }
 
   /* ----------------------------------------------------------
-     Hero entrance (Novo Layout - Banner e Card Flutuante)
+     Hero entrance
      ---------------------------------------------------------- */
-  if (!prefersReducedMotion) {
+  if (!prefersReducedMotion && typeof gsap !== 'undefined') {
     const heroElements = gsap.utils.toArray("[data-hero-fade]");
-    
-    // Esconde os elementos do grid incialmente
     gsap.set(heroElements, { opacity: 0, y: 30, filter: "blur(6px)" });
-    
-    // Anima a entrada de cada bloco sequencialmente
     gsap.to(heroElements, {
       opacity: 1, 
       y: 0, 
@@ -206,7 +237,7 @@
      Reveal helper
      ---------------------------------------------------------- */
   function createReveal() {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || typeof gsap === 'undefined') return;
 
     const revealGroups = gsap.utils.toArray(".reveal-group");
     revealGroups.forEach((group) => {
@@ -227,8 +258,9 @@
       });
     });
   }
-/* ----------------------------------------------------------
-     Novo Showcase de Tratamentos (Interativo)
+
+  /* ----------------------------------------------------------
+     Showcase de Tratamentos
      ---------------------------------------------------------- */
   function initServicesShowcase() {
     const buttons = document.querySelectorAll('.service-btn');
@@ -236,35 +268,27 @@
     const titleEl = document.getElementById('sd-title');
     const descEl = document.getElementById('sd-desc');
 
-    if (buttons.length === 0 || !imageEl) return;
+    if (buttons.length === 0 || !imageEl || typeof gsap === 'undefined') return;
 
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Se o botão clicado já está ativo, não faz nada
         if (btn.classList.contains('active')) return;
-
-        // 1. Remove a classe 'active' de todos e adiciona no clicado
         buttons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // 2. Pega as informações contidas no HTML do botão clicado
         const newImg = btn.getAttribute('data-img');
         const newTitle = btn.getAttribute('data-title');
         const newDesc = btn.getAttribute('data-desc');
 
-        // 3. Animação de saída e entrada com GSAP
         gsap.to([imageEl, titleEl, descEl], {
           opacity: 0,
           y: 10,
           duration: 0.3,
           ease: "power2.in",
           onComplete: () => {
-            // Troca os dados
             imageEl.src = newImg;
             titleEl.textContent = newTitle;
             descEl.textContent = newDesc;
-            
-            // Traz de volta com animação
             gsap.to([imageEl, titleEl, descEl], {
               opacity: 1,
               y: 0,
@@ -277,14 +301,12 @@
       });
     });
   }
+
   /* ----------------------------------------------------------
-     Nova Animação Pinned: Como Funciona + SVG Draw
-     ---------------------------------------------------------- */
-  /* ----------------------------------------------------------
-     Nova Animação Pinned: Como Funciona + SVG Draw (Curva U)
+     Como Funciona (Scroll Normal Mobile / Pin e SVG Desktop)
      ---------------------------------------------------------- */
   function initComoFunciona() {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || typeof gsap === 'undefined') return;
 
     const section = document.querySelector('.como-funciona');
     const progressPath = document.querySelector('.smile-progress-path');
@@ -292,58 +314,59 @@
 
     if (!section || !progressPath || steps.length === 0) return;
 
-    // 1. Esconde a linha do SVG antes de rodar
-    // Como a curva não muda de tamanho, o length dela (aprox 1600) é mapeado
     const pathLength = progressPath.getTotalLength() || 1650;
     gsap.set(progressPath, {
       strokeDasharray: pathLength,
       strokeDashoffset: pathLength
     });
-
-    // Esconde os cards no início
     gsap.set(steps, { opacity: 0, scale: 0.8, y: 30 });
 
-    // 2. Cria o gatilho fixo (Pin) na seção
-    const pinTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "+=2200", // Controla a velocidade (2200px de rolagem necessários)
-        pin: true,
-        scrub: 1,
-        invalidateOnRefresh: true
-      }
+    let mm = gsap.matchMedia();
+
+    // REGRA 1: DESKTOP (PC) -> Com trava de Scroll e animação do SVG
+    mm.add("(min-width: 993px)", () => {
+      const pinTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=2200", 
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      pinTl.to(progressPath, { strokeDashoffset: 0, duration: steps.length, ease: "none" }, 0);
+
+      steps.forEach((step, index) => {
+        pinTl.to(step, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" }, index * 0.9);
+      });
     });
 
-    // 3. Anima desenhando a linha verde escura
-    // (Só roda no desktop onde o SVG existe, graças à validação do display do CSS)
-    if (window.innerWidth > 992) {
-      pinTl.to(progressPath, {
-        strokeDashoffset: 0,
-        duration: steps.length,
-        ease: "none"
-      }, 0);
-    } else {
-      // Cria um gap vazio pro pin funcionar no celular sem dar erro de draw
-      pinTl.to({}, { duration: steps.length }, 0);
-    }
-
-    // 4. Anima os cards aparecendo
-    steps.forEach((step, index) => {
-      pinTl.to(step, {
-        opacity: 1, 
-        scale: 1, 
-        y: 0, 
-        duration: 0.6, 
-        ease: "back.out(1.5)"
-      }, index * 0.9); // O index dita o delay de cada card
+    // REGRA 2: MOBILE (Celular) -> Sem Trava (Scroll flui solto), só aparece os cards
+    mm.add("(max-width: 992px)", () => {
+      steps.forEach((step) => {
+        gsap.to(step, {
+          opacity: 1, 
+          scale: 1, 
+          y: 0, 
+          duration: 0.6, 
+          ease: "back.out(1.5)",
+          scrollTrigger: {
+            trigger: step,
+            start: "top 85%", 
+            toggleActions: "play none none none"
+          }
+        });
+      });
     });
   }
+
   /* ----------------------------------------------------------
      Tilt & Magnetic
      ---------------------------------------------------------- */
   function initTilt() {
-    if (prefersReducedMotion || isCoarsePointer) return;
+    if (prefersReducedMotion || isCoarsePointer || typeof gsap === 'undefined') return;
     gsap.utils.toArray("[data-tilt]").forEach((card) => {
       const intensity = 4;
       let tx = 0, ty = 0, rx = 0, ry = 0;
@@ -361,7 +384,7 @@
   }
 
   function initMagnetic() {
-    if (prefersReducedMotion || isCoarsePointer) return;
+    if (prefersReducedMotion || isCoarsePointer || typeof gsap === 'undefined') return;
     document.querySelectorAll("[data-magnetic]").forEach((el) => {
       const strength = 0.15;
       el.addEventListener("pointermove", (e) => {
@@ -378,9 +401,11 @@
      Custom cursor
      ---------------------------------------------------------- */
   function initCursor() {
-    if (prefersReducedMotion || isCoarsePointer) return;
+    if (prefersReducedMotion || isCoarsePointer || typeof gsap === 'undefined') return;
     const dot = document.querySelector(".cursor-dot");
     const ring = document.querySelector(".cursor-ring");
+    if(!dot || !ring) return;
+    
     let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
     document.addEventListener("pointermove", (e) => {
       mouseX = e.clientX; mouseY = e.clientY;
@@ -400,282 +425,186 @@
     });
     document.addEventListener("pointerleave", () => { gsap.to([dot, ring], { opacity: 0, duration: 0.3 }); });
   }
- /* ============================================================
-   LÓGICA DO SLIDER DE PROFISSIONAIS
-   ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  const btnNext = document.getElementById('team-next-btn');
-  if(!btnNext) return;
 
-  // Base de dados dos profissionais
-  const teamData = [
-    {
-      name: "Dra. Renata Strauss",
-      cro: "CRO/RJ 34248",
-      img: "fotos/renata.png", // Ajustado para .png para bater com seu HTML
-      bio: `
-        <p>Formada há 17 anos.</p>
-        <p><strong>Especialista</strong> em prótese dentária com <strong>foco em reabilitação oral</strong>.</p>
-        <p>Dentística <strong>restauradora e ortodontia</strong>.</p>
-        <p><strong>Pós graduada</strong> em DTM e fez residência em HOF.</p>
-        <p>Criadora dos melhores sorrisos da Cleandente.</p>
-        <p>É esposa do Dr Igor Firmo e mãe da Duda e da Manu. Ama viajar em família.</p>
-      `
-    },
-    {
-      name: "Dr. Igor Firmo",
-      cro: "CRO/RJ 38355",
-      img: "fotos/igor.png", // Ajustado para .png para bater com seu HTML
-      bio: `
-        <p>Formado há 23 anos pela UFF.</p>
-        <p><strong>Especialista</strong> em Implante dentário e Estomatologia.</p>
-        <p><strong>Pós graduado</strong> em prótese dentária com foco em <strong>odontologia digital e cirurgia oral</strong>.</p>
-        <p><strong>Já transformou mais de 18 mil sorrisos.</strong></p>
-        <p>É casado com a Dra Renata Strauss e pai das princesas Duda e Manu. Ama ficar em casa curtindo a família.</p>
-      `
-    }
-  ];
+  /* ============================================================
+     LÓGICA DO SLIDER DE PROFISSIONAIS
+     ============================================================ */
+  document.addEventListener('DOMContentLoaded', () => {
+    const btnNext = document.getElementById('team-next-btn');
+    if(!btnNext) return;
 
-  let currentIndex = 0;
-
-  // Elementos do DOM
-  const mainImg = document.getElementById('team-main-img');
-  const nameEl = document.getElementById('team-name');
-  const croEl = document.getElementById('team-cro');
-  const bioEl = document.getElementById('team-bio');
-  const previewImg = document.getElementById('preview-img-1');
-  const infoSection = document.getElementById('team-info');
-
-  btnNext.addEventListener('click', () => {
-    // Calcula o próximo index (alternando entre 0 e 1)
-    const nextIndex = (currentIndex + 1) % teamData.length;
-    const currentPro = teamData[currentIndex];
-    const nextPro = teamData[nextIndex];
-
-    // GSAP Timeline para uma animação suave
-    const tl = gsap.timeline();
-
-    // 1. Esconde as coisas suavemente indo um pouco pra baixo
-    tl.to([mainImg, previewImg, infoSection], {
-      y: 10,
-      opacity: 0,
-      duration: 0.3,
-      ease: "power2.inOut",
-      onComplete: () => {
-        // 2. Troca os conteúdos invisivelmente
-        mainImg.src = nextPro.img;
-        previewImg.src = currentPro.img; // A foto atual vira o preview!
-        
-        nameEl.innerText = nextPro.name;
-        croEl.innerText = nextPro.cro;
-        bioEl.innerHTML = nextPro.bio;
-        
-        currentIndex = nextIndex;
+    const teamData = [
+      {
+        name: "Dra. Renata Strauss",
+        cro: "CRO/RJ 34248",
+        img: "fotos/renata.png",
+        bio: `
+          <p>Formada há 17 anos.</p>
+          <p><strong>Especialista</strong> em prótese dentária com <strong>foco em reabilitação oral</strong>.</p>
+          <p>Dentística <strong>restauradora e ortodontia</strong>.</p>
+          <p><strong>Pós graduada</strong> em DTM e fez residência em HOF.</p>
+          <p>Criadora dos melhores sorrisos da Cleandente.</p>
+          <p>É esposa do Dr Igor Firmo e mãe da Duda e da Manu. Ama viajar em família.</p>
+        `
+      },
+      {
+        name: "Dr. Igor Firmo",
+        cro: "CRO/RJ 38355",
+        img: "fotos/igor.png",
+        bio: `
+          <p>Formado há 23 anos pela UFF.</p>
+          <p><strong>Especialista</strong> em Implante dentário e Estomatologia.</p>
+          <p><strong>Pós graduado</strong> em prótese dentária com foco em <strong>odontologia digital e cirurgia oral</strong>.</p>
+          <p><strong>Já transformou mais de 18 mil sorrisos.</strong></p>
+          <p>É casado com a Dra Renata Strauss e pai das princesas Duda e Manu. Ama ficar em casa curtindo a família.</p>
+        `
       }
-    })
-    // 3. Mostra tudo de novo vindo de baixo
-    .to([mainImg, previewImg, infoSection], {
-      y: 0,
-      opacity: 1,
-      duration: 0.4,
-      ease: "power2.out"
+    ];
+
+    let currentIndex = 0;
+    const mainImg = document.getElementById('team-main-img');
+    const nameEl = document.getElementById('team-name');
+    const croEl = document.getElementById('team-cro');
+    const bioEl = document.getElementById('team-bio');
+    const previewImg = document.getElementById('preview-img-1');
+    const infoSection = document.getElementById('team-info');
+
+    btnNext.addEventListener('click', () => {
+      const nextIndex = (currentIndex + 1) % teamData.length;
+      const currentPro = teamData[currentIndex];
+      const nextPro = teamData[nextIndex];
+
+      if(typeof gsap !== 'undefined') {
+        const tl = gsap.timeline();
+        tl.to([mainImg, previewImg, infoSection], {
+          y: 10,
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.inOut",
+          onComplete: () => {
+            mainImg.src = nextPro.img;
+            previewImg.src = currentPro.img; 
+            nameEl.innerText = nextPro.name;
+            croEl.innerText = nextPro.cro;
+            bioEl.innerHTML = nextPro.bio;
+            currentIndex = nextIndex;
+          }
+        })
+        .to([mainImg, previewImg, infoSection], {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out"
+        });
+      }
     });
   });
-});
-/* ============================================================
-   SCROLL HORIZONTAL - NOSSOS RESULTADOS
-   ============================================================ */
-document.addEventListener("DOMContentLoaded", () => {
-  // Verifica se o GSAP e o ScrollTrigger estão disponíveis
-  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
 
-    const horizontalSection = document.querySelector(".resultados-horizontal");
-    const track = document.querySelector(".hr-track");
+  /* ============================================================
+     SCROLL HORIZONTAL - NOSSOS RESULTADOS
+     ============================================================ */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+      const horizontalSection = document.querySelector(".resultados-horizontal");
+      const track = document.querySelector(".hr-track");
 
-    if (horizontalSection && track) {
-      // Função para calcular o quanto o elemento deve correr para a esquerda
-      function getScrollAmount() {
-        let trackWidth = track.scrollWidth;
-        return -(trackWidth - window.innerWidth);
-      }
-
-      // Cria a animação que move a "pista" para a esquerda (eixo X)
-      const tween = gsap.to(track, {
-        x: getScrollAmount,
-        ease: "none"
-      });
-
-      // Cria a Trava (Pin) do Scroll
-      ScrollTrigger.create({
-        trigger: horizontalSection,
-        start: "center center", // Trava a tela quando a galeria chega no meio
-        end: () => `+=${getScrollAmount() * -1}`, // Libera quando chega no fim da pista
-        pin: true,
-        animation: tween,
-        scrub: 1, // Suaviza o movimento ligado ao scroll do mouse (efeito smooth)
-        invalidateOnRefresh: true // Recalcula se o usuário redimensionar a janela
-      });
-    }
-  }
-});
-/* ============================================================
-   EFEITO DE TEXTO REVELADO (ENTRADA E SAÍDA) - TODAS AS SEÇÕES
-   ============================================================ */
-document.addEventListener("DOMContentLoaded", () => {
-  // Verifica se as bibliotecas estão carregadas
-  if (typeof gsap !== "undefined" && typeof SplitType !== "undefined" && typeof ScrollTrigger !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Mapeamento completo: pegando TODAS as classes de texto do site
-    const textElements = document.querySelectorAll(`
-      .section-title, .section-sub, .section-eyebrow, 
-      .contact-title, .contact-sub, .contact-eyebrow,
-      .ng-title, .ng-subtitle, .ng-vision-title, .ng-vision-desc,
-      .cta-title, .cta-sub, .gallery-title,
-      .team-name, .team-cro, .team-bio p,
-      .benefit-num, .benefit-item h4, .benefit-item p,
-      .smile-step h4, .smile-step p
-    `);
-
-    textElements.forEach((el) => {
-      // Divide o texto em palavras e depois em caracteres (letras)
-      const split = new SplitType(el, { types: 'words, chars' });
-
-      // Cria a animação atrelada ao scroll
-      gsap.from(split.chars, {
-        scrollTrigger: {
-          trigger: el,
-          start: "top 90%",  // Começa a escrever quando o elemento aparece na base da tela
-          end: "bottom 10%", // Limite para sumir quando passa do topo da tela
-          
-          // O Segredo da Animação de Entrada e Saída:
-          // 1º: play (escreve ao descer)
-          // 2º: reverse (apaga ao passar direto pra cima)
-          // 3º: play (escreve ao voltar subindo)
-          // 4º: reverse (apaga ao voltar pro topo)
-          toggleActions: "play reverse play reverse"
-        },
-        y: 20, // Distância que a letra sobe
-        opacity: 0, // Começa invisível
-        duration: 0.3, // Velocidade da animação de cada letra
-        stagger: 0.02, // O intervalo curtinho que cria o efeito "máquina de escrever"
-        ease: "power2.out"
-      });
-    });
-  }
-});
-/* ============================================================
-   FUNCIONALIDADES MOBILE: SWIPE E TROCA DE ABAS
-   ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. FUNÇÃO UNIVERSAL DE SWIPE (Arraste)
-  function handleSwipe(element, onSwipeLeft, onSwipeRight) {
-    if (!element) return;
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    element.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    element.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      // Se a distância do arraste for maior que 50 pixels, dispara a ação
-      if (touchEndX < touchStartX - 50) onSwipeLeft();
-      if (touchEndX > touchStartX + 50) onSwipeRight();
-    }, { passive: true });
-  }
-
-  // 2. LÓGICA DA SEÇÃO DE SERVIÇOS (Tratamentos)
-  const servButtons = document.querySelectorAll('.service-btn');
-  const sdTitle = document.getElementById('sd-title');
-  const sdDesc = document.getElementById('sd-desc');
-  const sdImage = document.getElementById('sd-image');
-  const servicesShowcase = document.querySelector('.services-showcase');
-  let currentServIndex = 0;
-
-  function updateService(index) {
-    if (index < 0 || index >= servButtons.length) return;
-    
-    // Atualiza botão ativo
-    servButtons.forEach(btn => btn.classList.remove('active'));
-    const btn = servButtons[index];
-    btn.classList.add('active');
-
-    // Animação GSAP na troca do conteúdo
-    if (typeof gsap !== "undefined") {
-      gsap.to([sdTitle, sdDesc, sdImage], {
-        opacity: 0,
-        y: 10,
-        duration: 0.2,
-        onComplete: () => {
-          sdTitle.innerText = btn.getAttribute('data-title');
-          sdDesc.innerText = btn.getAttribute('data-desc');
-          sdImage.src = btn.getAttribute('data-img');
-          gsap.to([sdTitle, sdDesc, sdImage], { opacity: 1, y: 0, duration: 0.3 });
+      if (horizontalSection && track) {
+        function getScrollAmount() {
+          let trackWidth = track.scrollWidth;
+          return -(trackWidth - window.innerWidth);
         }
-      });
+        const tween = gsap.to(track, {
+          x: getScrollAmount,
+          ease: "none"
+        });
+        ScrollTrigger.create({
+          trigger: horizontalSection,
+          start: "center center", 
+          end: () => `+=${getScrollAmount() * -1}`, 
+          pin: true,
+          animation: tween,
+          scrub: 1,
+          invalidateOnRefresh: true 
+        });
+      }
     }
-    currentServIndex = index;
-  }
-
-  // Evento de clique nos botões de serviços (Funciona no PC e Mobile)
-  servButtons.forEach((btn, idx) => {
-    btn.addEventListener('click', () => updateService(idx));
   });
 
-  // Evento de Arraste (Swipe) nos serviços
-  handleSwipe(servicesShowcase, 
-    () => { // Arrastou para a Esquerda (Próximo)
-      let nextIdx = (currentServIndex + 1) % servButtons.length;
-      updateService(nextIdx);
-    },
-    () => { // Arrastou para a Direita (Anterior)
-      let prevIdx = (currentServIndex - 1 + servButtons.length) % servButtons.length;
-      updateService(prevIdx);
-    }
-  );
+  /* ============================================================
+     FUNCIONALIDADES MOBILE: SWIPE E TROCA DE ABAS
+     ============================================================ */
+  document.addEventListener('DOMContentLoaded', () => {
+    function handleSwipe(element, onSwipeLeft, onSwipeRight) {
+      if (!element) return;
+      let touchStartX = 0;
+      let touchEndX = 0;
 
-  // 3. LÓGICA DE ARRASTE DOS PROFISSIONAIS
-  const teamSlider = document.getElementById('team-slider');
-  const btnNextTeam = document.getElementById('team-next-btn');
-  
-  if (teamSlider && btnNextTeam) {
-    handleSwipe(teamSlider, 
-      () => btnNextTeam.click(), // Esquerda
-      () => btnNextTeam.click()  // Direita (Como são 2, qualquer lado troca)
+      element.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      element.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchEndX < touchStartX - 50) onSwipeLeft();
+        if (touchEndX > touchStartX + 50) onSwipeRight();
+      }, { passive: true });
+    }
+
+    const servButtons = document.querySelectorAll('.service-btn');
+    const servicesShowcase = document.querySelector('.services-showcase');
+    let currentServIndex = 0;
+
+    function swipeService(index) {
+      if (index < 0 || index >= servButtons.length) return;
+      servButtons[index].click(); // Simula o clique no botão para usar a lógica pronta
+      currentServIndex = index;
+    }
+
+    // Configura o evento de swipe mantendo o controle do index
+    servButtons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => { currentServIndex = idx; });
+    });
+
+    handleSwipe(servicesShowcase, 
+      () => { 
+        let nextIdx = (currentServIndex + 1) % servButtons.length;
+        swipeService(nextIdx);
+      },
+      () => { 
+        let prevIdx = (currentServIndex - 1 + servButtons.length) % servButtons.length;
+        swipeService(prevIdx);
+      }
     );
-  }
 
-  // 4. ANIMAÇÃO DE APARECER E SUMIR A "DICA DE ARRASTE"
-  if (window.innerWidth <= 992 && typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-    const hints = document.querySelectorAll('.swipe-hint');
+    const teamSlider = document.getElementById('team-slider');
+    const btnNextTeam = document.getElementById('team-next-btn');
     
-    hints.forEach(hint => {
-      const parent = hint.parentElement;
-      
-      // Quando a seção chega na tela, a dica aparece
-      ScrollTrigger.create({
-        trigger: parent,
-        start: "top 60%", // Aciona quando o topo do elemento chega em 60% da tela
-        onEnter: () => {
-          gsap.to(hint, { opacity: 1, duration: 0.5 });
-          
-          // Some automaticamente depois de 4 segundos
-          setTimeout(() => {
-            gsap.to(hint, { opacity: 0, duration: 0.5 });
-          }, 4000);
-        }
-      });
+    if (teamSlider && btnNextTeam) {
+      handleSwipe(teamSlider, 
+        () => btnNextTeam.click(),
+        () => btnNextTeam.click() 
+      );
+    }
 
-      // Se o usuário tocar na tela antes dos 4 segundos, a dica some na hora
-      parent.addEventListener('touchstart', () => {
-        gsap.to(hint, { opacity: 0, duration: 0.3 });
-      }, { once: true });
-    });
-  }
-});
+    if (window.innerWidth <= 992 && typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+      const hints = document.querySelectorAll('.swipe-hint');
+      hints.forEach(hint => {
+        const parent = hint.parentElement;
+        ScrollTrigger.create({
+          trigger: parent,
+          start: "top 60%",
+          onEnter: () => {
+            gsap.to(hint, { opacity: 1, duration: 0.5 });
+            setTimeout(() => { gsap.to(hint, { opacity: 0, duration: 0.5 }); }, 4000);
+          }
+        });
+        parent.addEventListener('touchstart', () => {
+          gsap.to(hint, { opacity: 0, duration: 0.3 });
+        }, { once: true });
+      });
+    }
+  });
+
   /* ----------------------------------------------------------
      Init All
      ---------------------------------------------------------- */
@@ -686,8 +615,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initMagnetic();
   initCursor();
   initCounters();
-initServicesShowcase()
+  initServicesShowcase();
+
   window.addEventListener('load', () => {
-    ScrollTrigger.refresh();
+    if(typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
   });
 })();
