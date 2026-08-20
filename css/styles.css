@@ -1104,3 +1104,28 @@ button { font: inherit; border: 0; background: none; cursor: pointer; color: inh
     display: flex;
   }
 }
+/* ============================================================
+   AVISO DE COOKIES (LGPD)
+   ============================================================ */
+.cookie-banner {
+  position: fixed;
+  bottom: 0; /* Fixa na base */
+  left: 0;
+  width: 100%;
+  background: var(--sage-950);
+  color: #fff;
+  padding: 16px 0;
+  z-index: 9999;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+  
+  /* O truque mágico: empurra o banner inteiro 120% para baixo (escondendo a caixa e a sombra) */
+  transform: translateY(120%); 
+  transition: transform 0.6s var(--ease-premium);
+  
+  display: flex;
+  justify-content: center;
+}
+
+.cookie-banner.show { 
+  transform: translateY(0); /* Traz o banner de volta para a tela suavemente */
+}

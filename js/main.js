@@ -604,7 +604,29 @@
       });
     }
   });
+/* ============================================================
+   LÓGICA DO AVISO DE COOKIES
+   ============================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  const cookieBanner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("accept-cookies");
 
+  if (cookieBanner && acceptBtn) {
+    // Verifica se o usuário já aceitou antes (salvo no navegador)
+    if (!localStorage.getItem("cookiesAccepted")) {
+      // Espera 2 segundos após o site carregar para mostrar o aviso
+      setTimeout(() => {
+        cookieBanner.classList.add("show");
+      }, 2000);
+    }
+
+    // Quando clica em aceitar, esconde o banner e salva a escolha
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem("cookiesAccepted", "true");
+      cookieBanner.classList.remove("show");
+    });
+  }
+});
   /* ----------------------------------------------------------
      Init All
      ---------------------------------------------------------- */
